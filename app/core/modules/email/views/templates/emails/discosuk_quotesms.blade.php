@@ -1,0 +1,1 @@
+Your disco quotation is £{{$booking["total_cost"]}}, to book visit {{ config('app.url') . 'booking/' . $booking['email_token'] }}.

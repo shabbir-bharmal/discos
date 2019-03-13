@@ -1,0 +1,6 @@
+<?php
+
+/* 
+ * General events here
+ */
+

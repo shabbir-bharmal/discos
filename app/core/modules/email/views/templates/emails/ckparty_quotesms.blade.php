@@ -1,0 +1,1 @@
+Your Cool Kids Party quote has been sent by email, please check your inbox and spam folder :-)
