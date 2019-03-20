@@ -37,7 +37,7 @@ class EmailTemplate extends Eloquent
     
     public static function schedules()
     {
-        return self::where('deleted', '=', 0)->where('type', '=', self::TYPE_REGULAR)->get();
+        return self::where('deleted', '=', 0)->where('type', '=', self::TYPE_REGULAR)->orWhere('type', '=', self::TYPE_FOLLOW_UP)->get();
         //return self::where('id', '=', 2)->get();
     }
     
@@ -101,7 +101,7 @@ class EmailTemplate extends Eloquent
     
     public static function get_schedule_selection($emptyitem_text = 'Select an email template', $excludes = array())
     {
-        $regular_emails = EmailTemplate::where('type', '=', self::TYPE_REGULAR)->get();
+        $regular_emails = EmailTemplate::where('type', '=', self::TYPE_REGULAR)->orWhere('type', '=', self::TYPE_FOLLOW_UP)->get();
         return self::get_selection($emptyitem_text, $excludes, $regular_emails);
     }
 
