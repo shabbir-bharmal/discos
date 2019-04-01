@@ -1,7 +1,7 @@
-Dear @if( Helpers\StringsHelper::title($client->name) != '')
-{{ $client->name }}
+Dear @if( Helpers\StringsHelper::title($data->client->name) != '')
+{{ $data->client->name }}
 @else
-{{ studly_case(Helpers\StringsHelper::firstName($client->name)) }}
+{{ studly_case(Helpers\StringsHelper::firstName($data->client->name)) }}
 @endif<br><br>
 
 This will be my last email to see if there's anything I can do to sway you into booking my services.  So, this is just a courtesy message to say please get in touch if I can be of any assistance.  If not, then I wish you all the best for your event :-)<br><br>

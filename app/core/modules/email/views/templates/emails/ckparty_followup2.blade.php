@@ -1,7 +1,7 @@
-Dear @if( Helpers\StringsHelper::title($client->name) != '')
-{{ $client->name }}
+Dear @if( Helpers\StringsHelper::title($data->client->name) != '')
+{{ $data->client->name }}
 @else
-{{ studly_case(Helpers\StringsHelper::firstName($client->name)) }}
+{{ studly_case(Helpers\StringsHelper::firstName($data->client->name)) }}
 @endif<br><br>
 
 I hope you don't mind me sending another email to see how you are progressing with your plans to hire a kids party disco?  Is there anything I can do to help speed the process along?<br><br>
