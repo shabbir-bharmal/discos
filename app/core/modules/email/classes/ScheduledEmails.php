@@ -49,45 +49,44 @@ class ScheduledEmails
         });
     }
 
-    private function sendEmails(EmailTemplate $scheduled_email, $email_data_collection)
-    {
-        foreach ($email_data_collection as $email_data) :
-            $data = array();
-            $data['data'] = $email_data;
-            $to = $this->getRecipient($scheduled_email->recipient, $email_data);
-            $cc = $this->getCc($scheduled_email->cc);
-
-            \Mail::send(Helpers\EmailHelper::get_email_viewname($scheduled_email), $data, function ($mail) use ($email_data, $scheduled_email, $to, $cc) {
-
-                $mail->to(Str::lower($to));
-                if($scheduled_email->name == 'DISCOSCOUK')
-                {
-                    $mail->subject($scheduled_email->name);
-                }
-                else
-                {
-                    $mail->subject($this->tasker->get_subject($scheduled_email->subject, is_a($email_data, 'Booking') || is_a($email_data, 'FollowUp') ? $email_data : null));
-                }
-                if ($scheduled_email->cc != '') {
-                    $mail->bcc(ScheduledEmails::getCc($scheduled_email->cc));
-                }
-
-                if ($scheduled_email->reply_to != '' && $scheduled_email->reply_to != null) {
-                    $mail->replyTo($scheduled_email->reply_to);
-                }
-
-                if ($scheduled_email->email_from != '') {
-                    $mail->from($scheduled_email->email_from, $scheduled_email->name_from);
-                }
-            });
-
-            Log::info('Scheduled email sent to ' . $to . ' using email template ' . $scheduled_email->name);
-            $this->logForTest($scheduled_email->recipient, $email_data);
-        endforeach;
-
-        $scheduled_email->last_schedule = (new DateTime)->format('Y-m-d');
-        $scheduled_email->save();
-    }
+	private function sendEmails(EmailTemplate $scheduled_email, $email_data_collection)
+	{
+		foreach ($email_data_collection as $email_data) :
+			$data         = array();
+			$data['data'] = $email_data;
+			$to           = $this->getRecipient($scheduled_email->recipient, $email_data);
+			$cc           = $this->getCc($scheduled_email->cc);
+			if(empty($email_data)){
+				Log::info('No Follow Up Emails found for '.$scheduled_email->name);
+			}else {
+				if (isset($email_data->client) && !empty($email_data->client)) {
+					\Mail::send(Helpers\EmailHelper::get_email_viewname($scheduled_email), $data, function ($mail) use ($email_data, $scheduled_email, $to, $cc) {
+						$mail->to(Str::lower($to));
+						if ($scheduled_email->name == 'DISCOSCOUK') {
+							$mail->subject($scheduled_email->name);
+						} else {
+							$mail->subject($this->tasker->get_subject($scheduled_email->subject, is_a($email_data, 'Booking') || is_a($email_data, 'FollowUp') ? $email_data : null));
+						}
+						if ($scheduled_email->cc != '') {
+							$mail->bcc(ScheduledEmails::getCc($scheduled_email->cc));
+						}
+						if ($scheduled_email->reply_to != '' && $scheduled_email->reply_to != null) {
+							$mail->replyTo($scheduled_email->reply_to);
+						}
+						if ($scheduled_email->email_from != '') {
+							$mail->from($scheduled_email->email_from, $scheduled_email->name_from);
+						}
+					});
+					Log::info('Scheduled email sent to ' . $to . ' ' . $email_data->client_id . ' using email template ' . $scheduled_email->name);
+					$this->logForTest($scheduled_email->recipient, $email_data);
+				} else {
+					Log::info('No Client data found for Booking'.$email_data->booking_id.', client '.$email_data->client_id .' for '. $scheduled_email->name . ' template.');
+				}
+			}
+		endforeach;
+		$scheduled_email->last_schedule = (new DateTime)->format('Y-m-d');
+		$scheduled_email->save();
+	}
 
     public function getRecipient($email_recipient, $email_data)
     {
