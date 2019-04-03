@@ -1,23 +1,23 @@
 Please could you contact the customer below and confirm they have received our quotation:<br><br>
 
-<div>{{ $client->name }}</div>
-<div>{{ $client->email }}</div>
-<div>{{ $client->telephone }}</div>
-<div>{{ $client->mobile }}</div>
+<div>{{ $data->client->name }}</div>
+<div>{{ $data->client->email }}</div>
+<div>{{ $data->client->telephone }}</div>
+<div>{{ $data->client->mobile }}</div>
 
 ===== ===== ===== =====<br><br>
 
-Dear @if( Helpers\StringsHelper::title($client->name) != '')
-{{ $client->name }}
+Dear @if( Helpers\StringsHelper::title($data->client->name) != '')
+{{ $data->client->name }}
 @else
-{{ studly_case(Helpers\StringsHelper::firstName($client->name)) }}
+{{ studly_case(Helpers\StringsHelper::firstName($data->client->name)) }}
 @endif<br><br>
 
-Thank you for contacting me regarding your party on {{date("l jS \of F Y",$booking["timestamp"])}}.  I have pleasure in confirming my availability and providing you with a quotation for your event.<br><br>
+Thank you for contacting me regarding your party on {{date("l jS \of F Y",strtotime($data->booking["date"]))}}.  I have pleasure in confirming my availability and providing you with a quotation for your event.<br><br>
 
-Our 11am - 1pm slot is £{{$booking["total_travel_cost"] + 130}}.<br>
-Our 3pm - 5pm slot is £{{$booking["total_travel_cost"] + 150}}.<br>
-Our 7pm - 9pm slot is £{{$booking["total_travel_cost"] + 130}}.<br><br>
+Our 11am - 1pm slot is £{{$data->booking["total_travel_cost"] + 130}}.<br>
+Our 3pm - 5pm slot is £{{$data->booking["total_travel_cost"] + 150}}.<br>
+Our 7pm - 9pm slot is £{{$data->booking["total_travel_cost"] + 130}}.<br><br>
 
 You can book a party instantly online with just a £10 deposit via our website booking system at:
 <a href="https://www.coolkidsparty.com/online-booking/">https://www.coolkidsparty.com/online-booking/</a>.<br><br>

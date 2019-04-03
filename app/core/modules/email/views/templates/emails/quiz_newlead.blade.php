@@ -1,21 +1,21 @@
 Please could you contact the customer below and confirm they have received our quotation:<br><br>
 
-<div>{{ $client->name }}</div>
-<div>{{ $client->email }}</div>
-<div>{{ $client->telephone }}</div>
-<div>{{ $client->mobile }}</div>
+<div>{{ $data->client->name }}</div>
+<div>{{ $data->client->email }}</div>
+<div>{{ $data->client->telephone }}</div>
+<div>{{ $data->client->mobile }}</div>
 
 ===== ===== ===== =====<br><br>
 
-Dear @if( Helpers\StringsHelper::title($client->name) != '')
-{{ $client->name }}
+Dear @if( Helpers\StringsHelper::title($data->client->name) != '')
+{{ $data->client->name }}
 @else
-{{ studly_case(Helpers\StringsHelper::firstName($client->name)) }}
+{{ studly_case(Helpers\StringsHelper::firstName($data->client->name)) }}
 @endif<br><br>
 
-Thank you for contacting me regarding your event on {{date("l jS \of F Y",$booking["timestamp"])}}.  I have pleasure in confirming my availability and providing you with a quotation.<br><br>
+Thank you for contacting me regarding your event on {{date("l jS \of F Y",strtotime($data->booking["date"]))}}.  I have pleasure in confirming my availability and providing you with a quotation.<br><br>
 
-To provide a Smartfone Quiz between {{$booking["start_time_formatted"]}} and {{$booking["finish_time_formatted"]}} at {{$booking["venue_name"]}}, {{$booking["venue_postcode"]}} would be £{{$booking["total_cost"]}}.<br><br>
+To provide a Smartfone Quiz between {{$data->booking["start_time_formatted"]}} and {{$data->booking["finish_time_formatted"]}} at {{$data->booking["venue_name"]}}, {{$data->booking["venue_postcode"]}} would be £{{$data->booking["total_cost"]}}.<br><br>
 
 So, what on earth is a Smartfone Quiz?<br><br>
 
