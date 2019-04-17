@@ -59,7 +59,7 @@ class ScheduledEmails
 			if(empty($email_data)){
 				Log::info('No Follow Up Emails found for '.$scheduled_email->name);
 			}else {
-				if (isset($email_data->client) && !empty($email_data->client)) {
+				if (isset($email_data_collection[0]) || (isset($email_data->client) && !empty($email_data->client))) {
 					\Mail::send(Helpers\EmailHelper::get_email_viewname($scheduled_email), $data, function ($mail) use ($email_data, $scheduled_email, $to, $cc) {
 						$mail->to(Str::lower($to));
 						if ($scheduled_email->name == 'DISCOSCOUK') {
@@ -77,7 +77,7 @@ class ScheduledEmails
 							$mail->from($scheduled_email->email_from, $scheduled_email->name_from);
 						}
 					});
-					Log::info('Scheduled email sent to ' . $to . ' ' . $email_data->client_id . ' using email template ' . $scheduled_email->name);
+					Log::info('Scheduled email sent to ' . $to . ' ' .(isset($email_data_collection[0]))? '':$email_data->client_id . ' using email template ' . $scheduled_email->name);
 					$this->logForTest($scheduled_email->recipient, $email_data);
 				} else {
 					Log::info('No Client data found for Booking'.$email_data->booking_id.', client '.$email_data->client_id .' for '. $scheduled_email->name . ' template.');
